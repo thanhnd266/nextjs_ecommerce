@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { initialState } from '../contant/const';
+import { initialState } from '../constant/const';
 
 const notifySlice = createSlice({
     name: 'notify',

@@ -26,7 +26,7 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        const errMsg = valid(name, email, password, cf_password)
+        const errMsg = valid(name, email, password, cf_password);
         
         if(errMsg) {
             return dispatch(notifyAction({ error: errMsg }))

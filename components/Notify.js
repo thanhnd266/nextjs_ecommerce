@@ -11,7 +11,7 @@ const Notify = () => {
 
     return (
         <>
-            {notify.loading && <Loading />}
+            {notify.notify && notify.notify.loading && <Loading />}
             {notify.notify && notify.notify.error && 
                 <Toast 
                     msg={{ msg: notify.notify.error, title: "Error" }}

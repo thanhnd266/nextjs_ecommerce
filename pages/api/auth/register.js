@@ -23,6 +23,11 @@ const register = async (req, res) => {
             return res.status(400).json({err: errMsg});
         }
 
+        const user = await Users.findOne({ email });
+        if(user) {
+            return res.status(400).json({err: 'This email already exists.'});
+        }
+
         const passwordHash = hashPassword(password);
 
         const newUser = new Users({ 
@@ -33,7 +38,6 @@ const register = async (req, res) => {
         });
 
         newUser.save();
-
         res.json({msg: "Register Success!"})
     } catch(err) {
         return res.status(500).json({err: err.message})
