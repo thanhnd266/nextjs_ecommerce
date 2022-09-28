@@ -1,24 +1,34 @@
+import Head from 'next/head';
+import { useState } from 'react';
+import { getData } from '../utils/fetchData';
+import ProductItem from '../components/product/ProductItem';
+
+export const getServerSideProps = async () => {
+  const res = await getData('product');
+  return {
+    props: {
+      products: res.products,
+      result: res.result
+    }
+  }
+}
 
 
-
-const Home = ({ users }) => {
-  // useEffect(() => {
-  //   console.log(users)
-  // }, [users])
+const Home = (props) => {
+  const [products, setProducts] = useState(props.products);
 
   return (
-    <div>
-      Homepage
-      {users && users.map((user, index) => (
-        <div key={index}>
-          <h2>{user.name}</h2>
-          <p>{user.username}</p>
-          <p>{user.email}</p>
-          <p>{user.phone}</p>
-          <p>{user.website}</p>
-          <p>{user.address.city}</p>
-        </div>
-      ))}
+    <div className="products">
+      <Head>
+        <title>Home Page</title>
+      </Head> 
+
+      {products.length === 0
+          ? <h2>No Products</h2>
+          : products.map(product => (
+              <ProductItem key={product._id} product={product} />
+          )) 
+      }
     </div>
   )
 }

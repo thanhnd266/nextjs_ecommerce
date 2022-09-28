@@ -1,17 +1,22 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { authAction } from '../redux/AuthSlice';
 import { notifyAction } from '../redux/NotifySlice';
 import { postData } from '../utils/fetchData';
 import Cookie from 'js-cookie';
+import { useRouter } from 'next/router';
 
 const Signin = () => {
 
     const initialState = { email: '', password: ''};
     const [userData, setUserData] = useState(initialState);
     const { email, password } = userData;
+
+    const router = useRouter();
+
+    const auth = useSelector(state => state.auth);
 
     const dispatch = useDispatch();
 
@@ -49,6 +54,12 @@ const Signin = () => {
 
         localStorage.setItem('firstLogin', true);
     }
+
+    useEffect(() => {
+        if(Object.keys(auth).length !== 0 && Object.keys(auth.auth).length !== 0) {
+            router.push('/')
+        }
+    }, [auth, router])
 
     return ( 
         <div>

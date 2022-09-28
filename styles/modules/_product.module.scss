@@ -29,7 +29,7 @@ h1 {
 
 
 /* --------- Detail Product ----------- */
-.detail_page .img-thumbnail.active{
-    border-color: orangered;
-    padding: 2px;
+.detail_page .img-thumbnail.active {
+    border: 2px solid rgb(248, 135, 94) !important;
+    padding: 2px !important;
 }

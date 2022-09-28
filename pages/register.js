@@ -1,10 +1,11 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import valid from '../utils/valid';
 import { useSelector, useDispatch } from 'react-redux';
 import { notifyAction } from '../redux/NotifySlice';
 import { postData } from '../utils/fetchData';
+import { useRouter } from 'next/router';
 
 
 const Register = () => {
@@ -12,7 +13,9 @@ const Register = () => {
     const [userData, setUserData] = useState(initialState);
     const { name, email, password, cf_password } = userData;
 
-    const notifyState = useSelector(state => state.notify);
+    const router = useRouter();
+
+    const auth = useSelector(state => state.auth);
 
     const dispatch = useDispatch();
 
@@ -44,6 +47,12 @@ const Register = () => {
 
         return dispatch(notifyAction({ success: res.msg }))
     }
+
+    useEffect(() => {
+        if(Object.keys(auth).length !== 0 && Object.keys(auth.auth).length !== 0) {
+            router.push('/')
+        }
+    }, [auth, router])
 
     return ( 
         <div>

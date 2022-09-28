@@ -1,8 +1,17 @@
 import Link from 'next/link';
 import {useRouter} from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+import Image from 'next/image';
+import Cookie from 'js-cookie'
+import { authAction } from '../redux/AuthSlice';
+import { notifyAction } from '../redux/NotifySlice';
 
 const NavBar = () => {
     const router = useRouter();
+
+    const dispatch = useDispatch();
+
+    const authState = useSelector((state) => state.auth);
 
     const isActive = (r) => {
         if(r === router.pathname) {
@@ -11,6 +20,39 @@ const NavBar = () => {
             return ' ';
         }
     } 
+
+    const handleLogout = () => {
+        Cookie.remove('refreshtoken', {path: 'api/auth/accessToken'});
+        localStorage.removeItem('firstLogin');
+        dispatch(authAction({}));
+        dispatch(notifyAction({ success: 'Logged out!' }));
+    }
+
+    const loggedRouter = () => {
+        return (
+            <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                    <Image 
+                        src={authState && authState.auth && authState.auth.user && authState.auth.user.avatar} 
+                        alt='avatar'
+                        width='30'
+                        height='30'
+                        style={{
+                            borderRadius: '50%',
+                            marginRight: '3px',
+                        }}
+                    />
+                    <span className="ml-1">
+                        {authState && authState.auth && authState.auth.user && authState.auth.user.name}
+                    </span>
+                </a>
+                <div className="dropdown-menu">
+                    <a className="dropdown-item" href="#">Profile</a>
+                    <button className="dropdown-item" onClick={handleLogout}>Logout</button>
+                </div>
+            </li>
+        )
+    }
 
     return ( 
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -24,28 +66,26 @@ const NavBar = () => {
                 <ul className="navbar-nav">
                     <li className="nav-item">
                         <Link href="/cart">
-                            <a className={"nav-link" + isActive('/cart')}><i className="fa-solid fa-cart-shopping" arial-hidden="true"></i>Cart</a>
-                        </Link>
-                    </li>
-
-                    <li className="nav-item">
-                        <Link href="/signin">
-                            <a className={"nav-link" + isActive('/signin')}>
-                                <i className="fa-solid fa-user" arial-hidden="true"></i>
-                                Sign in
+                            <a className={"nav-link" + isActive('/cart')}>
+                                <i className="fa-solid fa-cart-shopping" arial-hidden="true"></i>
+                                <span className="ml-1">Cart</span>
                             </a>
                         </Link>
                     </li>
+
+                    {
+                        Object.keys(authState).length === 0 || (Object.keys(authState.auth).length === 0)
+                            ? (<li className="nav-item cursor-pointer">
+                                <Link href="/signin">
+                                    <a className={"nav-link" + isActive('/signin')}>
+                                        <i className="fas fa-user" aria-hidden="true"></i>
+                                        <span className="ml-1">Sign in</span>
+                                    </a>
+                                </Link>
+                            </li>)
+                            : loggedRouter()
+                    }
                     
-                    {/* <li className="nav-item dropdown">
-                        <a className="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-                        User Name
-                        </a>
-                        <div className="dropdown-menu">
-                            <a className="dropdown-item" href="#">Profile</a>
-                            <a className="dropdown-item" href="#">Logout</a>
-                        </div>
-                    </li> */}
                 </ul>
             </div>
             </nav>

@@ -1,8 +1,19 @@
+import { useEffect, useState } from "react";
 
 const Toast = ({ msg, handleShow, bgColor}) => {
+
+    const [show, setShow ] = useState(true);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setShow(false);
+        }, 5000);
+    }, [show])
+
     return ( 
         <div 
-            className={`toast show position-fixed text-light ${bgColor}`} 
+            className={`toast show position-fixed text-light ${bgColor}`}
+            hidden={show ? false : true} 
             style={{ top: '5px', right: '5px', zIndex: 9, minWidth: '280px'}}
         >
             <div className={`toast-header ${bgColor} text-light`}>
