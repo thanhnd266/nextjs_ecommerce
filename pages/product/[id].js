@@ -19,11 +19,9 @@ const DetailProduct = (props) => {
     const [tab, setTab] = useState(0);
     const imgRef = useRef();
 
-
     useEffect(() => {
         const images = imgRef.current.children;
 
-        console.log(images)
         for(let i = 0; i < images.length; i++) {
             images[i].className = images[i].className.replace('active', 'img-thumbnail rounded')
         }
