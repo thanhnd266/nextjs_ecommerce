@@ -22,7 +22,6 @@ const Home = (props) => {
       <Head>
         <title>Home Page</title>
       </Head> 
-
       {products.length === 0
           ? <h2>No Products</h2>
           : products.map(product => (

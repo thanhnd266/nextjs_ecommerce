@@ -5,6 +5,8 @@ import Image from 'next/image';
 import Cookie from 'js-cookie'
 import { authAction } from '../redux/AuthSlice';
 import { notifyAction } from '../redux/NotifySlice';
+import { useEffect } from 'react';
+import { addCart } from '../redux/CartSlice';
 
 const NavBar = () => {
     const router = useRouter();
@@ -12,6 +14,18 @@ const NavBar = () => {
     const dispatch = useDispatch();
 
     const authState = useSelector((state) => state.auth);
+    const cart = useSelector((state) => state.cart);
+
+    useEffect(() => {
+        const __next__cart01__devat = JSON.parse(localStorage.getItem('__next__cart01__devat'));
+        if(__next__cart01__devat) {
+            dispatch(addCart(__next__cart01__devat));
+        }
+    }, [dispatch]);
+
+    useEffect(() => {
+        localStorage.setItem('__next__cart01__devat', JSON.stringify(cart));
+    }, [cart]);
 
     const isActive = (r) => {
         if(r === router.pathname) {
@@ -67,7 +81,22 @@ const NavBar = () => {
                     <li className="nav-item">
                         <Link href="/cart">
                             <a className={"nav-link" + isActive('/cart')}>
-                                <i className="fa-solid fa-cart-shopping" arial-hidden="true"></i>
+                                <i className="fa-solid fa-cart-shopping position-relative" arial-hidden="true">
+                                    <span 
+                                        className="position-absolute"
+                                        style={{
+                                            padding: '3px 6px',
+                                            background: '#ed143dc2',
+                                            borderRadius: '50%',
+                                            top: '-10px',
+                                            right: '-10px',
+                                            color: 'white',
+                                            fontSize: '14px'
+                                        }}
+                                    >
+                                        {cart.length}
+                                    </span>
+                                </i>
                                 <span className="ml-1">Cart</span>
                             </a>
                         </Link>
