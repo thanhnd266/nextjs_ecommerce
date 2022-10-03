@@ -7,10 +7,18 @@ const cartSlice = createSlice({
   
   reducers: {
     addCart: (state, action) => {
-
       state = [...state, action.payload];
       let arr  = [...new Set(state)]
       return arr;
+    },
+    fillQuantity: (state, action) => {
+        state.map(item => {
+            if(item._id === action.payload.id) {
+                item.quantity = action.payload.quantity;
+            }
+        })
+
+        return state;
     },
     increase: (state, action) => {
         state.map((item )=> {
@@ -36,4 +44,4 @@ const cartSlice = createSlice({
 });
 
 export default cartSlice.reducer;
-export const { addCart, increase, decrease } = cartSlice.actions;
+export const { addCart, fillQuantity, increase, decrease } = cartSlice.actions;

@@ -34,6 +34,7 @@ const Cart = () => {
             />
         )
     }
+    
     return ( 
         <div className="row mx-auto">
             <Head>
@@ -59,6 +60,10 @@ const Cart = () => {
                         }
                     </tbody>
                 </table>
+                <div className="d-flex justify-content-end">
+                    <button className="btn btn-outline-dark">Cancel</button>
+                    <button className="btn btn-danger ml-2">Save</button>
+                </div>
             </div>
 
             <div className="col-md-4 my-3 text-right text-uppercase text-secondary">
