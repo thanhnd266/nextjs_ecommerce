@@ -22,15 +22,31 @@ const ProductItem = ({ product }) => {
 
     return ( 
         <div className="card" style={{ width: '18rem' }}>
-            <Image 
-                className="card-img-top" 
-                width={300}
-                height={240}
-                src={product.images[0].url}
-                alt="Image product" 
-            />
+            <Link href={`product/${product._id}`}>
+                <a>
+                    <Image 
+                        className="card-img-top" 
+                        width={300}
+                        height={240}
+                        src={product.images[0].url}
+                        alt="Image product" 
+                    />
+                </a>
+            </Link>
+            
             <div className="card-body">
-                <h5 className="card-title text-capitalize" title={product.title}>{product.title}</h5>
+                <h5 
+                    className="card-title text-capitalize" 
+                    role="button" 
+                    title={product.title}
+                    onClick={() => userLink()}
+                >
+                    <Link href={`product/${product._id}`}>
+                        <a>
+                            {product.title}
+                        </a>
+                    </Link>
+                </h5>
 
                 <div className="row justify-content-between mx-0">
                     <h6 className="text-danger">${product.price}</h6>
