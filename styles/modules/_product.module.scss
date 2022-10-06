@@ -27,6 +27,21 @@ h1 {
     -webkit-line-clamp: 3;
 }
 
+.loaderBtn {
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
 
 /* --------- Detail Product ----------- */
 .detail_page .img-thumbnail.active {

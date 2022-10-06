@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
+import { notifyAction } from '../redux/NotifySlice';
+import { useDispatch } from "react-redux";
 
 const Toast = ({ msg, handleShow, bgColor}) => {
+
+    const dispatch = useDispatch();
 
     const [show, setShow ] = useState(true);
 
     useEffect(() => {
         setTimeout(() => {
+            // dispatch(notifyAction({}));
             setShow(false);
-        }, 5000);
-    }, [show])
+        }, 3000);
+    }, [show, dispatch])
 
     return ( 
         <div 

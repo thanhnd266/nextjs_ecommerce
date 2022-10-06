@@ -1,10 +1,29 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../../redux/Actions';
+import { notifyAction } from '../../redux/NotifySlice';
 
 const ProductItem = ({ product }) => {
 
+    const cart = useSelector(state => state.cart);
+    const notify = useSelector(state => state.notify);
+
+    const dispatch = useDispatch();
+
+    const handleAddToCart = () => {
+        dispatch(notifyAction({
+            loadingBtn: true,
+        }));
+
+        setTimeout(() => {
+            dispatch(notifyAction({success: 'Add to your cart success'}))
+            dispatch(addToCart(product, cart));
+        }, 500)
+    }
+
     const userLink = () => {
+
         return (
             <>
                 <Link href={`product/${product._id}`}>
@@ -15,7 +34,17 @@ const ProductItem = ({ product }) => {
                         View
                     </a>
                 </Link>
-                <button className="btn btn-success" style={{marginLeft: '5px', flex: 1}}>Buy</button>
+                <button 
+                    className="btn btn-success" 
+                    style={{marginLeft: '5px', flex: 1}}
+                    disabled={product.inStock === 0 ? true : false}
+                    onClick={handleAddToCart}
+                >
+                    {notify && notify.notify && notify.notify.loadingBtn 
+                        ? <i className="fa-solid fa-spinner loaderBtn"></i>
+                        : 'Buy'
+                    }
+                </button>
             </>
         )
     }
